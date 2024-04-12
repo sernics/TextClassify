@@ -1,0 +1,9 @@
+use std::collections::BTreeMap; 
+use std::{fs::File, path::PathBuf};
+
+fn parse() -> BTreeMap<i32, String> {
+  let filename : PathBuf = "./data/PH_train.csv".into();
+  let file = File::open(filename).unwrap();
+
+  return BTreeMap::new();
+} 
