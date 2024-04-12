@@ -48,11 +48,7 @@ impl Dict {
       .create(true)
       .open(path)
       .unwrap();
-    let header = format!("Número de palabras: {}\n", self.set.len());
-    let contents = self.set.iter().fold(String::new(), |acc, word| {
-      acc + word + "\n"
-    });
-    file.write_all((header + contents.as_str()).as_bytes()).unwrap();
+    file.write_all(format!("{}", self).as_bytes()).unwrap();
   }
 }
 
