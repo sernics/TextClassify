@@ -39,9 +39,12 @@ impl Dict {
         .collect(),
     }
   }
+  
+  #[allow(dead_code)]
   pub fn contains(&self, word: &str) -> bool {
     self.set.contains(word)
   }
+
   pub fn save_file(&self, path: &PathBuf) {
     let mut file = OpenOptions::new()
       .write(true)
@@ -53,10 +56,10 @@ impl Dict {
 }
 
 impl std::fmt::Display for Dict {
-  fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-    write!(f, "Número de palabras: {}\n", self.set.len())?;
+  fn fmt(&self, output: &mut std::fmt::Formatter) -> std::fmt::Result {
+    write!(output, "Número de palabras: {}\n", self.set.len())?;
     for word in self.set.iter() {
-      write!(f, "{}\n",word)?;
+      write!(output, "{}\n",word)?;
     }
 
     Ok(())
