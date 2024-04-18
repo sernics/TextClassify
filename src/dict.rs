@@ -3,6 +3,9 @@ use std::fs::read_to_string;
 use std::path::PathBuf;
 use std::fs::OpenOptions;
 use std::io::Write;
+use rust_stemmers::{Algorithm, Stemmer};
+
+extern crate rust_stemmers;
 
 fn filter_word(word: &String) -> bool {
   let mut letter = ' ';
@@ -15,12 +18,12 @@ fn filter_word(word: &String) -> bool {
       letter_count += 1;
     } else {
       letter = c;
-      letter_count = 1; 
+      letter_count = 1;
     }
     if letter_count >= 3 {
       return false;
     }
-  } 
+  }
   !word.is_empty()
 }
 
@@ -31,15 +34,17 @@ pub struct Dict {
 impl Dict {
   pub fn new(path: &PathBuf) -> Dict {
     let contents = read_to_string(path).unwrap();
+    let stemmer = Stemmer::create(Algorithm::English); // Create a stemmer for the English language
     Dict {
       set: contents
         .split(['\n', ' ', ',', ';'])
         .map(|raw| raw.to_lowercase())
         .filter(filter_word)
+        .map(|word| stemmer.stem(&word).to_string()) // Lematize each word
         .collect(),
     }
   }
-  
+
   #[allow(dead_code)]
   pub fn contains(&self, word: &str) -> bool {
     self.set.contains(word)
@@ -59,7 +64,7 @@ impl std::fmt::Display for Dict {
   fn fmt(&self, output: &mut std::fmt::Formatter) -> std::fmt::Result {
     write!(output, "Número de palabras: {}\n", self.set.len())?;
     for word in self.set.iter() {
-      write!(output, "{}\n",word)?;
+      write!(output, "{}\n", word)?;
     }
 
     Ok(())

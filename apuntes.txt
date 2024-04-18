@@ -1,0 +1,25 @@
+Vocabulario = {..., ...}
+
+- Modelo unigrama
+
+w pertenece V -> P(w) = C(w) / N -> Se nos pide log(P(w))
+
+Dividimos el PH_train.csv y lo dividimos en phishing y safe.
+Luego calculamos la probabilidad de que aparezca cada palabra en ese conjunto de datos.
+
+P(hello | phishing)
+P(hello | safe)
+P(drugs | phishing)
+P(drugs | safe)
+...
+
+Para tratar con palabras que no estén en el vocabulario:
+- Seleccionar todas las palabras que aparecen menos de k veces y le vamos a asignar la etiqueta <UNK> (desconocido) -> Token.
+
+Entonces palabras como guachinche actúan como <UNK> y se les asigna una probabilidad de 1 / N.
+
+La forma más fácil de hacerlo es poner K = 1.
+
+P(<UNK>) = 0 + 1 / N + |V| + 1.
+
+Cuando añadas <UNK> al vocabulario, ya tendrá |V| = |V| + 1.
