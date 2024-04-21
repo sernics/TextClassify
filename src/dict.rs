@@ -38,11 +38,12 @@ pub struct Dict {
 impl Dict {
   pub fn new(path: &PathBuf) -> Dict {
     let contents = read_to_string(path).unwrap();
-    let stemmer = Stemmer::create(Algorithm::English); // Create a stemmer for the English language
+    // Create a stemmer for the English language
+    let stemmer = Stemmer::create(Algorithm::English); 
     Dict {
       set: contents
         .split(['\n', ' ', ',', ';'])
-        .map(|word| preprocess_word(&stemmer, &word)) // Lematize each word
+        .map(|word| preprocess_word(&stemmer, &word))
         .filter(filter_word)
         .collect(),
     }
