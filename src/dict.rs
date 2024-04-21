@@ -27,6 +27,10 @@ fn filter_word(word: &String) -> bool {
   !word.is_empty()
 }
 
+fn preprocess_word(stemmer: &Stemmer, word: &str) -> String {
+  stemmer.stem(word.to_lowercase().as_str()).to_string()
+}
+
 pub struct Dict {
   set: BTreeSet<String>,
 }
@@ -38,9 +42,8 @@ impl Dict {
     Dict {
       set: contents
         .split(['\n', ' ', ',', ';'])
-        .map(|raw| raw.to_lowercase())
+        .map(|word| preprocess_word(&stemmer, &word)) // Lematize each word
         .filter(filter_word)
-        .map(|word| stemmer.stem(&word).to_string()) // Lematize each word
         .collect(),
     }
   }
