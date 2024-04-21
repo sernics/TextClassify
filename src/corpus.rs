@@ -8,7 +8,7 @@ pub struct Notice {
 pub struct Corpus {
   notices: u32,
   words: u32,
-  notices_list: BTreeSet<Notice>
+  notices_list: BTreeSet<Notice>,
 }
 
 impl Notice {
@@ -51,7 +51,7 @@ impl Corpus {
     Corpus {
       notices: 0,
       words: 0,
-      notices_list: BTreeSet::new()
+      notices_list: BTreeSet::new(),
     }
   }
   pub fn add_notice(&mut self, notice: Notice) {

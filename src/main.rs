@@ -16,5 +16,4 @@ fn main() {
   let end_time = Instant::now();
   let execution_time = end_time - start_time;
   println!("Execution time: {:?}", execution_time);
-  println!("{}", corpus_s.get_notice(6).get_body());
 }

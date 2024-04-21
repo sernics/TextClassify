@@ -52,6 +52,7 @@ impl Dict {
     self.set.contains(word)
   }
 
+  #[allow(dead_code)]
   pub fn save_file(&self, path: &PathBuf) {
     let mut file = OpenOptions::new()
       .write(true)
