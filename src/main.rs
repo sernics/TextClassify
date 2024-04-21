@@ -1,4 +1,5 @@
 mod dict;
+mod preprocess;
 
 fn main() {
   let path = std::env::args().nth(1).unwrap();

@@ -5,6 +5,8 @@ use std::fs::OpenOptions;
 use std::io::Write;
 use rust_stemmers::{Algorithm, Stemmer};
 
+use crate::preprocess::preprocess_word;
+
 extern crate rust_stemmers;
 
 fn filter_word(word: &String) -> bool {
@@ -25,10 +27,6 @@ fn filter_word(word: &String) -> bool {
     }
   }
   !word.is_empty()
-}
-
-fn preprocess_word(stemmer: &Stemmer, word: &str) -> String {
-  stemmer.stem(word.to_lowercase().as_str()).to_string()
 }
 
 pub struct Dict {
