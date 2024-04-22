@@ -1,4 +1,4 @@
-use std::collections::{BTreeSet, HashMap};
+use std::{collections::{BTreeSet, HashMap}, fmt::write};
 
 pub struct Notice {
   id: u32,
@@ -70,5 +70,13 @@ impl Corpus {
   }
   pub fn get_notice(&self, id: u32) -> &Notice {
     self.notices_list.iter().find(|x| x.id == id).unwrap()
+  }
+}
+
+impl std::fmt::Display for Corpus {
+  fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    write!(f, "Número de documentos del corups: {}\n
+               Número de palabras del corpus: {}", 
+               self.notices, self.words)
   }
 }
