@@ -2,7 +2,7 @@ use std::{fs::read_to_string, path::PathBuf};
 
 use crate::corpus::{Corpus, Notice};
 use crate::preprocess::preprocess_word;
-use crate::filter_word::filter_word;
+use crate::filter_word::{filter_string, filter_word};
 
 use rust_stemmers::{Algorithm, Stemmer};
 
@@ -14,10 +14,6 @@ pub fn build_corpus(path: &PathBuf) -> (Corpus, Corpus) {
   let contents = read_to_string(path).unwrap();
 
   let contents = contents.replace("\n", " ");
-  let contents = contents.replace("-", "");
-  let contents = contents.replace("~", "");
-  let contents = contents.replace("*", "");
-  let contents = contents.replace(":", " ");
   let contents = contents.split("\r").collect::<Vec<&str>>();
   let mut contents = contents.iter().map(|x| x.split(";").collect::<Vec<&str>>()).collect::<Vec<Vec<&str>>>();
 
@@ -27,7 +23,8 @@ pub fn build_corpus(path: &PathBuf) -> (Corpus, Corpus) {
 
   println!("Processing notices...");
   for i in 0..contents.len() - 1 {
-    let notice = Notice::new((i + 1) as u32, preprocess_word(&stemmer, contents[i][1]));
+    let data = filter_string(&stemmer, contents[i][1]); // Aqui ya se hace el preprocesado
+    let notice = Notice::new((i + 1) as u32, data);
     match contents[i][2] {
       "Phishing Email" => corpus_p.add_notice(notice),
       "Safe Email" => corpus_s.add_notice(notice),
