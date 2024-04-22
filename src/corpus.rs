@@ -1,4 +1,5 @@
 use std::collections::{BTreeSet, HashMap};
+use std::io::Write;
 
 pub struct Notice {
   id: u32,
@@ -70,6 +71,24 @@ impl Corpus {
   }
   pub fn get_notice(&self, id: u32) -> &Notice {
     self.notices_list.iter().find(|x| x.id == id).unwrap()
+  }
+  pub fn save_file(&self, path: &std::path::PathBuf) {
+    if let Ok(mut file) = std::fs::File::create(path) {
+      if let Err(err) = write!(file, "Número de documentos del corpus: {}\nNúmero de palabras del corpus: {}\n", self.notices, self.words) {
+        eprintln!("Error writing to file: {}", err);
+        return;
+      }
+      for (key, value) in &self.words_count {
+        let log_prob = ((*value as f32) / (self.words as f32)).log2();
+        if let Err(err) = write!(file, "Palabra: {}: Frecuencia: {} LogProb:{}\n", key, value, log_prob) {
+          eprintln!("Error writing to file: {}", err);
+          return;
+        }
+      }
+      println!("File saved successfully.");
+    } else {
+      eprintln!("Error creating file.");
+    }
   }
 }
 
