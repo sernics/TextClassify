@@ -1,4 +1,4 @@
-use std::collections::BTreeSet;
+use std::collections::{BTreeSet, HashMap};
 
 pub struct Notice {
   id: u32,
@@ -9,6 +9,7 @@ pub struct Corpus {
   notices: u32,
   words: u32,
   notices_list: BTreeSet<Notice>,
+  words_count: HashMap<String, u32>
 }
 
 impl Notice {
@@ -52,11 +53,16 @@ impl Corpus {
       notices: 0,
       words: 0,
       notices_list: BTreeSet::new(),
+      words_count: HashMap::new()
     }
   }
   pub fn add_notice(&mut self, notice: Notice) {
     self.notices += 1;
     self.words += notice.body.split_whitespace().count() as u32;
+    for word in notice.body.split_whitespace() {
+      let count = self.words_count.entry(word.to_string()).or_insert(0);
+      *count += 1;
+    }
     self.notices_list.insert(notice);
   }
   pub fn get_notices(&self) -> &BTreeSet<Notice> {
