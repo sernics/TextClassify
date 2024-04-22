@@ -20,9 +20,11 @@ impl Notice {
       body: body
     }
   }
+  #[allow(dead_code)]
   pub fn get_id(&self) -> u32 {
     self.id
   }
+  #[allow(dead_code)]
   pub fn get_body(&self) -> &str {
     &self.body
   }
@@ -66,13 +68,16 @@ impl Corpus {
     }
     self.notices_list.insert(notice);
   }
+  #[allow(dead_code)]
   pub fn get_notices(&self) -> &BTreeSet<Notice> {
     &self.notices_list
   }
+  #[allow(dead_code)]
   pub fn get_notice(&self, id: u32) -> &Notice {
     self.notices_list.iter().find(|x| x.id == id).unwrap()
   }
   pub fn save_file(&self, path: &std::path::PathBuf) {
+    println!("Saving corpus {}", path.display());
     if let Ok(mut file) = std::fs::File::create(path) {
       if let Err(err) = write!(file, "Número de documentos del corpus: {}\nNúmero de palabras del corpus: {}\n", self.notices, self.words) {
         eprintln!("Error writing to file: {}", err);

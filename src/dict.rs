@@ -16,6 +16,7 @@ pub struct Dict {
 
 impl Dict {
   pub fn new(path: &PathBuf) -> Dict {
+    println!("Loading dictionary...");
     let contents = read_to_string(path).unwrap();
     // Create a stemmer for the English language
     let stemmer = Stemmer::create(Algorithm::English); 
@@ -35,6 +36,7 @@ impl Dict {
 
   #[allow(dead_code)]
   pub fn save_file(&self, path: &PathBuf) {
+    println!("Saving dictionary...");
     let mut file = OpenOptions::new()
       .write(true)
       .create(true)

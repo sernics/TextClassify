@@ -1,8 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use crate::corpus::{Corpus, Notice};
-use crate::preprocess::preprocess_word;
-use crate::filter_word::{filter_string, filter_word};
+use crate::filter_word::filter_string;
 
 use rust_stemmers::{Algorithm, Stemmer};
 
