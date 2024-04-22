@@ -4,6 +4,7 @@ mod dict;
 mod preprocess;
 mod corpus;
 mod build_corpus;
+mod filter_word;
 
 fn main() {
   let path = std::env::args().nth(1).unwrap();

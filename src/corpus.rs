@@ -1,4 +1,4 @@
-use std::{collections::{BTreeSet, HashMap}, fmt::write};
+use std::collections::{BTreeSet, HashMap};
 
 pub struct Notice {
   id: u32,
@@ -75,8 +75,12 @@ impl Corpus {
 
 impl std::fmt::Display for Corpus {
   fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-    write!(f, "Número de documentos del corups: {}\n
-               Número de palabras del corpus: {}", 
-               self.notices, self.words)
+    writeln!(f, "Número de documentos del corups: {}\nNúmero de palabras del corpus: {}", 
+               self.notices, self.words)?;
+    for (key, value) in &self.words_count {
+      let log_prob = ((*value as f32) / (self.words as f32)).log2();
+      write!(f, "Palabra: {}: Frecuencia: {} LogProb:{}\n", key, value, log_prob)?;
+    }
+    Ok(())
   }
 }

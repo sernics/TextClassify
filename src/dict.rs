@@ -6,28 +6,9 @@ use std::io::Write;
 use rust_stemmers::{Algorithm, Stemmer};
 
 use crate::preprocess::preprocess_word;
+use crate::filter_word::filter_word;
 
 extern crate rust_stemmers;
-
-fn filter_word(word: &String) -> bool {
-  let mut letter = ' ';
-  let mut letter_count = 0;
-  for c in word.chars() {
-    if !c.is_alphabetic() {
-      return false;
-    }
-    if c == letter {
-      letter_count += 1;
-    } else {
-      letter = c;
-      letter_count = 1;
-    }
-    if letter_count >= 3 {
-      return false;
-    }
-  }
-  !word.is_empty()
-}
 
 pub struct Dict {
   set: BTreeSet<String>,
