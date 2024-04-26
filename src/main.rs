@@ -12,7 +12,7 @@ fn main() {
   let path = std::path::PathBuf::from(path);
   let dict = dict::Dict::new(&path);
   dict.save_file(&std::path::PathBuf::from(saved_path));
-  let (corpus_p, corpus_s) = build_corpus::build_corpus(&path);
+  let (corpus_p, corpus_s) = build_corpus::build_corpus(&path, &dict);
   corpus_p.save_file(&std::path::PathBuf::from(saved_corpus_p));
   corpus_s.save_file(&std::path::PathBuf::from(saved_corpus_s));
 }

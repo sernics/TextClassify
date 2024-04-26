@@ -2,10 +2,11 @@ use std::{fs::read_to_string, path::PathBuf};
 
 use crate::corpus::{Corpus, Notice};
 use crate::filter_word::filter_string;
+use crate::dict::Dict;
 
 use rust_stemmers::{Algorithm, Stemmer};
 
-pub fn build_corpus(path: &PathBuf) -> (Corpus, Corpus) {
+pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
   println!("Building corpus...");
   let mut corpus_p = Corpus::new(); // Phising corpus
   let mut corpus_s = Corpus::new(); // Safe corpus
@@ -30,5 +31,10 @@ pub fn build_corpus(path: &PathBuf) -> (Corpus, Corpus) {
       _ => panic!("Invalid notice type")
     }
   }
+
+  println!("Laplazian smoothing...");
+  corpus_p.laplazian_smoothing(dict);
+  corpus_s.laplazian_smoothing(dict);
+
   (corpus_p, corpus_s)
 }

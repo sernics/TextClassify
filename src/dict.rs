@@ -44,6 +44,10 @@ impl Dict {
       .unwrap();
     file.write_all(format!("{}", self).as_bytes()).unwrap();
   }
+
+  pub fn get_dict(&self) -> &BTreeSet<String> {
+    &self.set
+  }
 }
 
 impl std::fmt::Display for Dict {

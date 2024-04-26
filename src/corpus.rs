@@ -1,6 +1,8 @@
 use std::collections::{BTreeSet, HashMap};
 use std::io::Write;
 
+use crate::dict::Dict;
+
 pub struct Notice {
   id: u32,
   body: String
@@ -75,6 +77,14 @@ impl Corpus {
   #[allow(dead_code)]
   pub fn get_notice(&self, id: u32) -> &Notice {
     self.notices_list.iter().find(|x| x.id == id).unwrap()
+  }
+  #[allow(dead_code)]
+  pub fn laplazian_smoothing(&mut self, dict: &Dict) {
+    for word in dict.get_dict() {
+      let count = self.words_count.entry(word.to_string()).or_insert(0);
+      *count += 1;
+      self.words += 1;
+    }
   }
   pub fn save_file(&self, path: &std::path::PathBuf) {
     println!("Saving corpus {}", path.display());
