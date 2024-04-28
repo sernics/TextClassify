@@ -37,13 +37,25 @@ impl Corpus {
   pub fn get_notice(&self, id: u32) -> &Notice {
     self.notices_list.iter().find(|x| x.get_id() == id).unwrap()
   }
-  #[allow(dead_code)]
   pub fn laplazian_smoothing(&mut self, dict: &Dict) {
     for word in dict.get_dict() {
       let count = self.words_count.entry(word.to_string()).or_insert(0);
       *count += 1;
     }
     self.words += dict.get_dict().len() as u32;
+  }
+  pub fn calculate_probability(&self, notice: &Notice) -> f32 {
+    let mut prob = 0.0;
+    for word in notice.get_body().split_whitespace() {
+      let count = self.words_count.get(word);
+      if let Some(count) = count {
+        prob += ((*count as f32) / (self.words as f32)).ln();
+      } else {
+        // if is <UNK> word
+        prob += (1.0 / ((self.words + 1) as f32)).ln();
+      }
+    }
+    prob
   }
   pub fn save_file(&self, path: &std::path::PathBuf) {
     println!("Saving corpus {}", path.display());
