@@ -22,17 +22,14 @@ pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
   // Dividir contents en dos
   // Una de la posicion 0 a la 9999, y otra de la 10000 a la 14999
   // llamarla contents y test_contents
-  let (contents, test_contents) = contents.split_at(10001);
-
-  println!("{}", contents.len());
-  println!("{}", test_contents.len());
+  let (contents, test_contents) = contents.split_at(10000);
 
   let contents = contents.iter().map(|x| x.split(";").collect::<Vec<&str>>()).collect::<Vec<Vec<&str>>>();
 
   let stemmer = Stemmer::create(Algorithm::English);
 
   println!("Processing notices...");
-  for i in 0..contents.len() - 1 {
+  for i in 0..contents.len() {
     let data = filter_string(&stemmer, contents[i][1]); // Aqui ya se hace el preprocesado
     let notice = Notice::new((i + 1) as u32, data);
     match contents[i][2] {
@@ -42,6 +39,11 @@ pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
     }
   }
 
+  println!("Laplazian smoothing...");
+  corpus_p.laplazian_smoothing(dict);
+  corpus_s.laplazian_smoothing(dict);
+
+  println!("Processing test notices...");
   let mut count = 0;
   for i in 0..test_contents.len() - 1 {
     let data = filter_string(&stemmer, test_contents[i].split(";").collect::<Vec<&str>>()[1]); // Aqui ya se hace el preprocesado
@@ -55,10 +57,6 @@ pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
   }
   // Calcular el porcentaje de aciertos
   println!("Porcentaje de aciertos: {}", count as f32 / test_contents.len() as f32);
-
-  println!("Laplazian smoothing...");
-  corpus_p.laplazian_smoothing(dict);
-  corpus_s.laplazian_smoothing(dict);
 
   (corpus_p, corpus_s)
 }
