@@ -3,6 +3,7 @@ mod preprocess;
 mod corpus;
 mod build_corpus;
 mod filter_word;
+mod notice;
 
 fn main() {
   let path = std::env::args().nth(1).unwrap();

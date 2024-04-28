@@ -1,6 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use crate::corpus::{Corpus, Notice};
+use crate::corpus::Corpus;
+use crate::notice::Notice;
 use crate::filter_word::filter_string;
 use crate::dict::Dict;
 
