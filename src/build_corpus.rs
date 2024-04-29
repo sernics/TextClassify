@@ -53,7 +53,7 @@ pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
     }
   }
   // Calcular el porcentaje de aciertos
-  println!("Porcentaje de aciertos: {}", count as f32 / test_contents.len() as f32);
+  println!("Porcentaje de aciertos: {}", (count as f32 / test_contents.len() as f32));
 
   (corpus_p, corpus_s)
 }
