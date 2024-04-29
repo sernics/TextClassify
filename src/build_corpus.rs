@@ -19,9 +19,6 @@ pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
 
   contents.remove(0);
 
-  // Dividir contents en dos
-  // Una de la posicion 0 a la 9999, y otra de la 10000 a la 14999
-  // llamarla contents y test_contents
   let (contents, test_contents) = contents.split_at(10000);
 
   let contents = contents.iter().map(|x| x.split(";").collect::<Vec<&str>>()).collect::<Vec<Vec<&str>>>();
@@ -30,7 +27,7 @@ pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
 
   println!("Processing notices...");
   for i in 0..contents.len() {
-    let data = filter_string(&stemmer, contents[i][1]); // Aqui ya se hace el preprocesado
+    let data = filter_string(&stemmer, contents[i][1]);
     let notice = Notice::new((i + 1) as u32, data);
     match contents[i][2] {
       "Phishing Email" => corpus_p.add_notice(notice),
@@ -46,7 +43,7 @@ pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
   println!("Processing test notices...");
   let mut count = 0;
   for i in 0..test_contents.len() - 1 {
-    let data = filter_string(&stemmer, test_contents[i].split(";").collect::<Vec<&str>>()[1]); // Aqui ya se hace el preprocesado
+    let data = filter_string(&stemmer, test_contents[i].split(";").collect::<Vec<&str>>()[1]);
     let notice = Notice::new((i + 1) as u32, data);
     let data = test_contents[i].split(";").collect::<Vec<&str>>();
     let probs = test_notice(&notice, &corpus_p, &corpus_s);

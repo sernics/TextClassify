@@ -5,8 +5,7 @@ use std::fs::OpenOptions;
 use std::io::Write;
 use rust_stemmers::{Algorithm, Stemmer};
 
-use crate::preprocess::preprocess_word;
-use crate::filter_word::filter_word;
+use crate::filter_word::filter_string;
 
 extern crate rust_stemmers;
 
@@ -18,13 +17,11 @@ impl Dict {
   pub fn new(path: &PathBuf) -> Dict {
     println!("Loading dictionary...");
     let contents = read_to_string(path).unwrap();
-    // Create a stemmer for the English language
     let stemmer = Stemmer::create(Algorithm::English); 
     Dict {
       set: contents
         .split(['\n', ' ', ',', ';'])
-        .map(|word| preprocess_word(&stemmer, &word))
-        .filter(filter_word)
+        .map(|word| filter_string(&stemmer, &word))
         .collect(),
     }
   }
