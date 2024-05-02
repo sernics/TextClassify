@@ -16,12 +16,14 @@ fn main() {
   let test_path = std::path::PathBuf::from(std::env::args().nth(4).unwrap());
   let saved_corpus_p = std::env::args().nth(5).unwrap();
   let saved_corpus_s = std::env::args().nth(6).unwrap();
+  let clasification_path = std::path::PathBuf::from(std::env::args().nth(7).unwrap());
+  let resumen_path = std::path::PathBuf::from(std::env::args().nth(8).unwrap());
   let dict = dict::Dict::new(&path);
   dict.save_file(&std::path::PathBuf::from(saved_vocabulary));
   let (corpus_p, corpus_s) = build_corpus::build_corpus(&train_path, &dict);
   corpus_p.save_file(&std::path::PathBuf::from(saved_corpus_p));
   corpus_s.save_file(&std::path::PathBuf::from(saved_corpus_s));
-  test_corpus::test_corpus(&test_path, corpus_p, corpus_s);
+  test_corpus::test_corpus(&test_path, corpus_p, corpus_s, clasification_path, resumen_path);
   let elapsed_time = start_time.elapsed();
 
   println!("Execution time: {:?}", elapsed_time);

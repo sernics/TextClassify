@@ -1,5 +1,4 @@
 pub fn preprocess_word(word: &str) -> String {
-
   if word.chars().all(|c| c.is_ascii_punctuation()) {
     return "<PUNCT>".to_string();
   }
@@ -11,7 +10,7 @@ pub fn preprocess_word(word: &str) -> String {
   if !word.chars().any(|c| c.is_alphabetic()) {
     return "<PUNCT>".to_string();
   }
-  
+
   let mut letter = ' ';
   let mut letter_count = 0;
   let mut new_word = String::new();
