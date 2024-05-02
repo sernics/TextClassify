@@ -5,7 +5,7 @@ use crate::corpus::Corpus;
 use crate::notice::Notice;
 use crate::filter_word::filter_string;
 
-pub fn test_corpus(path: &PathBuf, corpus_p: Corpus, corpus_s: Corpus, clasification_path: PathBuf, resumen_path: PathBuf) {
+pub fn test_corpus(path: &PathBuf, corpus_p: Corpus, corpus_s: Corpus, clasification_path: PathBuf, resumen_path: PathBuf, check: bool) {
   println!("Testing corpus...");
   let contents = read_to_string(path).unwrap();
   let mut contents = contents.split("\r").collect::<Vec<&str>>();
@@ -36,16 +36,20 @@ pub fn test_corpus(path: &PathBuf, corpus_p: Corpus, corpus_s: Corpus, clasifica
       resumen.push_str("S\n");
       max_result = "Safe Email";
     }
-    if max_result == data[2] {
-      count += 1;
+    if check {
+      if max_result == data[2] {
+        count += 1;
+      }
     }
   }
   println!("Saving classifications results...");
   std::fs::write(clasification_path, classification).unwrap();
   println!("Saving resumen results...");
   std::fs::write(resumen_path, resumen).unwrap();
-  // Calcular el porcentaje de aciertos
-  println!("Porcentaje de aciertos: {:.2}%", (count as f32 / contents.len() as f32) * 100.0);
+  if check {
+    // Calcular el porcentaje de aciertos
+    println!("Porcentaje de aciertos: {:.2}%", (count as f32 / contents.len() as f32) * 100.0);
+  }
 }
 
 #[allow(dead_code)]
