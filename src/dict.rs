@@ -6,8 +6,6 @@ use std::io::Write;
 
 use crate::filter_word::filter_string;
 
-extern crate rust_stemmers;
-
 pub struct Dict {
   set: BTreeSet<String>,
 }
