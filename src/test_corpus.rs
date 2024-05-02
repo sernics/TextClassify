@@ -28,11 +28,11 @@ pub fn test_corpus(path: &PathBuf, corpus_p: Corpus, corpus_s: Corpus, clasifica
     classification.push_str(&format!("{:.2}", probs.1));
     let max_result : &str;
     if probs.0 > probs.1 {
-      classification.push_str(",Phishing Email\n");
+      classification.push_str(",P\n");
       resumen.push_str("P\n");
       max_result = "Phishing Email";
     } else {
-      classification.push_str(",Safe Email\n");
+      classification.push_str(",S\n");
       resumen.push_str("S\n");
       max_result = "Safe Email";
     }
@@ -45,7 +45,7 @@ pub fn test_corpus(path: &PathBuf, corpus_p: Corpus, corpus_s: Corpus, clasifica
   println!("Saving resumen results...");
   std::fs::write(resumen_path, resumen).unwrap();
   // Calcular el porcentaje de aciertos
-  println!("Porcentaje de aciertos: {:.2}", (count as f32 / contents.len() as f32) * 100.0);
+  println!("Porcentaje de aciertos: {:.2}%", (count as f32 / contents.len() as f32) * 100.0);
 }
 
 #[allow(dead_code)]
