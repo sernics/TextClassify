@@ -1,6 +1,4 @@
-use rust_stemmers::Stemmer;
-
-pub fn preprocess_word(stemmer: &Stemmer, word: &str) -> String {
+pub fn preprocess_word(word: &str) -> String {
 
   if word.chars().all(|c| c.is_ascii_punctuation()) {
     return "<PUNCT>".to_string();
@@ -30,5 +28,5 @@ pub fn preprocess_word(stemmer: &Stemmer, word: &str) -> String {
   }
   let word = new_word;
 
-  stemmer.stem(word.to_lowercase().as_str()).to_string()
+  word.to_lowercase()
 }

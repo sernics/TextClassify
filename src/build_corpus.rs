@@ -5,8 +5,6 @@ use crate::notice::Notice;
 use crate::filter_word::filter_string;
 use crate::dict::Dict;
 
-use rust_stemmers::{Algorithm, Stemmer};
-
 pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
   println!("Building corpus...");
   let mut corpus_p = Corpus::new(); // Phising corpus
@@ -22,11 +20,9 @@ pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
 
   let contents = contents.iter().map(|x| x.split(";").collect::<Vec<&str>>()).collect::<Vec<Vec<&str>>>();
 
-  let stemmer = Stemmer::create(Algorithm::English);
-
   println!("Processing notices...");
   for i in 0..contents.len() {
-    let data = filter_string(&stemmer, contents[i][1]);
+    let data = filter_string(contents[i][1]);
     let notice = Notice::new((i + 1) as u32, data);
     match contents[i][2] {
       "Phishing Email" => corpus_p.add_notice(notice),

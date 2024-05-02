@@ -3,7 +3,6 @@ use std::fs::read_to_string;
 use std::path::PathBuf;
 use std::fs::OpenOptions;
 use std::io::Write;
-use rust_stemmers::{Algorithm, Stemmer};
 
 use crate::filter_word::filter_string;
 
@@ -17,11 +16,10 @@ impl Dict {
   pub fn new(path: &PathBuf) -> Dict {
     println!("Loading dictionary...");
     let contents = read_to_string(path).unwrap();
-    let stemmer = Stemmer::create(Algorithm::English); 
     Dict {
       set: contents
         .split(['\n', ' ', ',', ';'])
-        .map(|word| filter_string(&stemmer, &word))
+        .map(|word| filter_string(&word))
         .collect(),
     }
   }
