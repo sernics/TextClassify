@@ -21,7 +21,7 @@ pub fn build_corpus(path: &PathBuf, dict: &Dict) -> (Corpus, Corpus) {
   let contents = contents.iter().map(|x| x.split(";").collect::<Vec<&str>>()).collect::<Vec<Vec<&str>>>();
 
   println!("Processing notices...");
-  for i in 0..contents.len() {
+  for i in 0..contents.len() - 1 {
     let data = filter_string(contents[i][1]);
     let notice = Notice::new((i + 1) as u32, data);
     match contents[i][2] {
